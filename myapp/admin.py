@@ -1,20 +1,14 @@
 from django.contrib import admin
 from .models import Sections
 from django.http import HttpResponseRedirect
-from .models import Villain
+from .models import Sections
 
-admin.site.register(Sections)
+@admin.register(Sections)
+class CodeSnippetAdmin(admin.ModelAdmin):
+    change_form_template = "admin/myapp/change_form.html"
 
-@admin.register(Villain)
-class VillainAdmin(admin.ModelAdmin):
-    change_form_template = "admin/your_app/change_form.html"
-
-    def response_change(self, request, obj):
-        if "_make-unique" in request.POST:
-            matching_names_except_this = self.get_queryset(request).filter(name=obj.name).exclude(pk=obj.id)
-            matching_names_except_this.delete()
-            obj.is_unique = True
-            obj.save()
-            self.message_user(request, "This villain is now unique")
-            return HttpResponseRedirect(".")
-        return super().response_change(request, obj)
+    def save_model(self, request, obj, form, change):
+        obj.html = form.cleaned_data['html']
+        obj.css = form.cleaned_data['css']
+        obj.js = form.cleaned_data['js']
+        super().save_model(request, obj, form, change)

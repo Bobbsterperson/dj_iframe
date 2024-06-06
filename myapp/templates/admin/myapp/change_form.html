@@ -1,0 +1,59 @@
+{% extends 'admin/change_form.html' %}
+
+{% block after_field_sets %}
+    {{ block.super }}
+    <div class="form-row">
+        <label>Preview</label>
+        <iframe id="preview" style="width: 100%; height: 500px;"></iframe>
+    </div>
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+ 
+    <style>
+        .CodeMirror {
+            height: auto;
+        }
+        #preview {
+            
+            background-color: #f5d6d6;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+    </style>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log(document.getElementById('id_html').classList);
+
+            var htmlEditor = document.getElementById('id_html');
+
+            console.log(document.getElementById('id_html').classList);
+            var cssEditor = document.getElementById('id_css');
+
+            var jsEditor = document.getElementById('id_js');
+            var previewFrame = document.getElementById('preview');
+            function updatePreview() {
+                
+                var preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
+                preview.open();
+                preview.write(
+                    '<style>' + cssEditor.value + '</style>' +
+                    htmlEditor.value +
+                    '<script>' + jsEditor.value + '<\/script>'
+                );
+                preview.close();
+            }
+            
+          
+            htmlEditor.addEventListener('input', updatePreview);
+            cssEditor.addEventListener('input', updatePreview);
+            jsEditor.addEventListener('input', updatePreview);
+
+            updatePreview();
+        });
+    </script>
+{% endblock %}
