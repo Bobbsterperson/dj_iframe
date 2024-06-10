@@ -94,10 +94,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 SOCIALACCOUNT_PROVIDERS = {}
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
+
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_EMAIL_REQUIRED = True
 
 
 # Password validation
@@ -142,9 +142,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'live.smtp.mailtrap.io'
-EMAIL_HOST_USER = 'api'
-EMAIL_HOST_PASSWORD = '90267463b778aa2ba6bed1c33817f366'
-EMAIL_PORT = '587'
-EMAIL_USE_TLS = True
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '25'
+EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
+# STATIC_URL = '/static/'
+DEFAULT_FROM_EMAIL = 'piss@cunt.com'

@@ -5,9 +5,8 @@ def simple_mail(request):
     try:
         send_mail(subject="piss", 
                   message='the message', 
-                  from_email='mailtrap@demomailtrap.com', 
+                  from_email='mailtrap@demomailtrap.com',
                   recipient_list=['bugstonn@gmail.com'],
-                 
                   )
     except Exception as e:
 
