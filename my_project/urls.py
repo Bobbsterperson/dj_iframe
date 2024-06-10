@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from dashboard import views
+from .views import simple_mail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/profile/", views.profile, name="profile"),
     path('accounts/', include('allauth.urls')),
+    path('mail', simple_mail),
 
 ]
 

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: dj_iframe
+      POSTGRES_USER: dj_iframe
+      POSTGRES_PASSWORD: dj_iframe
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  smtp:
+    image: namshi/smtp
+    ports:
+      - "25:25"
+
+volumes:
+  postgres_data:
