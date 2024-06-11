@@ -147,4 +147,4 @@ EMAIL_PORT = '25'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
 # STATIC_URL = '/static/'
-DEFAULT_FROM_EMAIL = 'piss@cunt.com'
+DEFAULT_FROM_EMAIL = 'bugstonn@gmail.com'

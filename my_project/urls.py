@@ -24,6 +24,6 @@ urlpatterns = [
     path("accounts/profile/", views.profile, name="profile"),
     path('accounts/', include('allauth.urls')),
     path('mail', simple_mail),
-
+    path('myapp/', include('myapp.urls')),
 ]
 
