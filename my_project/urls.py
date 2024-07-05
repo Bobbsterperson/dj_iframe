@@ -25,5 +25,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('mail', simple_mail),
     path('myapp/', include('myapp.urls')),
+    path('model_fields/', include('model_fields.urls')),
 ]
 
