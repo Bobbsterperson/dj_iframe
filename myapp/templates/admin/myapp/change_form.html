@@ -1,31 +1,18 @@
-<!DOCTYPE html>
+{% extends 'admin/change_form.html' %}
 
-<html lang="en-us" dir="ltr">
-<head>
-<title>Add sections | Django site admin</title>
-<link rel="stylesheet" href="/static/admin/css/base.css">
+{% block after_field_sets %}
+    {{ block.super }}
+    <div class="form-row">
+        <label>Preview</label>
+        <iframe id="preview" style="width: 100%; height: 500px;"></iframe>
+    </div>
+    <div>
+        <input type="submit" value="login with goongel">
+    </div>
+{% endblock %}
 
-  <link rel="stylesheet" href="/static/admin/css/dark_mode.css">
-  <script src="/static/admin/js/theme.js" defer></script>
-
-
-  <link rel="stylesheet" href="/static/admin/css/nav_sidebar.css">
-  <script src="/static/admin/js/nav_sidebar.js" defer></script>
-
-<link rel="stylesheet" href="/static/admin/css/forms.css">
-
-
-    
-<script src="/admin/jsi18n/"></script>
-<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
-<script src="/static/admin/js/jquery.init.js"></script>
-<script src="/static/admin/js/core.js"></script>
-<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script src="/static/admin/js/actions.js"></script>
-<script src="/static/admin/js/urlify.js"></script>
-<script src="/static/admin/js/prepopulate.js"></script>
-<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
-
+{% block extrahead %}
+    {{ block.super }}
  
     <style>
         .CodeMirror {
@@ -33,12 +20,9 @@
         }
         #preview {
             
-            background-color: #ffffff;
+            background-color: #f5d6d6;
             border: 1px solid #ddd;
             margin-top: 20px;
-        }
-        .testclass {
-            color: #259231;
         }
     </style>
 
@@ -47,6 +31,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             console.log(document.getElementById('id_html').classList);
+
             var htmlEditor = document.getElementById('id_html');
 
             console.log(document.getElementById('id_html').classList);
@@ -74,340 +59,4 @@
             updatePreview();
         });
     </script>
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/admin/css/responsive.css">
-    
-
-<meta name="robots" content="NONE,NOARCHIVE">
-</head>
-
-<body class=" app-myapp model-sections change-form"
-  data-admin-utc-offset="0">
-<a href="#content-start" class="skip-to-content-link">Skip to main content</a>
-<!-- Container -->
-<div id="container">
-
-    
-    <!-- Header -->
-    
-      <header id="header">
-        <div id="branding">
-        
-<div id="site-name"><a href="/admin/">Django administration</a></div>
-
-
-        </div>
-        
-        
-        <div id="user-tools">
-            
-                Welcome,
-                <strong>bugston</strong>.
-            
-            
-                
-                    <a href="/">View site</a> /
-                
-                
-                    
-                    
-                
-                
-                <a href="/admin/password_change/">Change password</a> /
-                
-                <form id="logout-form" method="post" action="/admin/logout/">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="QcIDf1mRa9vIGlVM2CxQNhxd4qqsHGTDI0zCbgLuMXddTfOMT6H9k0f89g3iTzFk">
-                    <button type="submit">Log out</button>
-                </form>
-                
-<button class="theme-toggle">
-  <div class="visually-hidden theme-label-when-auto">Toggle theme (current theme: auto)</div>
-  <div class="visually-hidden theme-label-when-light">Toggle theme (current theme: light)</div>
-  <div class="visually-hidden theme-label-when-dark">Toggle theme (current theme: dark)</div>
-  <svg aria-hidden="true" class="theme-icon-when-auto">
-    <use xlink:href="#icon-auto" />
-  </svg>
-  <svg aria-hidden="true" class="theme-icon-when-dark">
-    <use xlink:href="#icon-moon" />
-  </svg>
-  <svg aria-hidden="true" class="theme-icon-when-light">
-    <use xlink:href="#icon-sun" />
-  </svg>
-</button>
-
-            
-        </div>
-        
-        
-        
-      </header>
-    
-    <!-- END Header -->
-    
-      <nav aria-label="Breadcrumbs">
-        
-<div class="breadcrumbs">
-<a href="/admin/">Home</a>
-&rsaquo; <a href="/admin/myapp/">Myapp</a>
-&rsaquo; <a href="/admin/myapp/sections/">Sectionss</a>
-&rsaquo; Add sections
-</div>
-
-      </nav>
-    
-    
-
-    <div class="main" id="main">
-      
-        
-          
-<button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
-<nav class="sticky" id="nav-sidebar" aria-label="Sidebar">
-  <input type="search" id="nav-filter"
-         placeholder="Start typing to filter…"
-         aria-label="Filter navigation items">
-  
-
-
-  
-    <div class="app-account module">
-      <table>
-        <caption>
-          <a href="/admin/account/" class="section" title="Models in the Accounts application">Accounts</a>
-        </caption>
-        
-          <tr class="model-emailaddress">
-            
-              <th scope="row"><a href="/admin/account/emailaddress/">Email addresses</a></th>
-            
-
-            
-              <td><a href="/admin/account/emailaddress/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-      </table>
-    </div>
-  
-    <div class="app-auth module">
-      <table>
-        <caption>
-          <a href="/admin/auth/" class="section" title="Models in the Authentication and Authorization application">Authentication and Authorization</a>
-        </caption>
-        
-          <tr class="model-group">
-            
-              <th scope="row"><a href="/admin/auth/group/">Groups</a></th>
-            
-
-            
-              <td><a href="/admin/auth/group/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-          <tr class="model-user">
-            
-              <th scope="row"><a href="/admin/auth/user/">Users</a></th>
-            
-
-            
-              <td><a href="/admin/auth/user/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-      </table>
-    </div>
-  
-    <div class="app-myapp module current-app">
-      <table>
-        <caption>
-          <a href="/admin/myapp/" class="section" title="Models in the Myapp application">Myapp</a>
-        </caption>
-        
-          <tr class="model-sections current-model">
-            
-              <th scope="row"><a href="/admin/myapp/sections/" aria-current="page">Sectionss</a></th>
-            
-
-            
-              <td><a href="/admin/myapp/sections/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-      </table>
-    </div>
-  
-    <div class="app-socialaccount module">
-      <table>
-        <caption>
-          <a href="/admin/socialaccount/" class="section" title="Models in the Social Accounts application">Social Accounts</a>
-        </caption>
-        
-          <tr class="model-socialaccount">
-            
-              <th scope="row"><a href="/admin/socialaccount/socialaccount/">Social accounts</a></th>
-            
-
-            
-              <td><a href="/admin/socialaccount/socialaccount/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-          <tr class="model-socialtoken">
-            
-              <th scope="row"><a href="/admin/socialaccount/socialtoken/">Social application tokens</a></th>
-            
-
-            
-              <td><a href="/admin/socialaccount/socialtoken/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-          <tr class="model-socialapp">
-            
-              <th scope="row"><a href="/admin/socialaccount/socialapp/">Social applications</a></th>
-            
-
-            
-              <td><a href="/admin/socialaccount/socialapp/add/" class="addlink">Add</a></td>
-            
-
-            
-          </tr>
-        
-      </table>
-    </div>
-  
-
-
-</nav>
-
-        
-      
-      <main id="content-start" class="content" tabindex="-1">
-        
-          
-        
-        <!-- Content -->
-        <div id="content" class="colM">
-          
-          <h1>Add sections</h1>
-          
-          <div id="content-main">
-
-
-
-<form method="post" id="sections_form" novalidate><input type="hidden" name="csrfmiddlewaretoken" value="QcIDf1mRa9vIGlVM2CxQNhxd4qqsHGTDI0zCbgLuMXddTfOMT6H9k0f89g3iTzFk">
-    <div style="display: flex;">
-        <div style="flex: 1; padding-right: 20px;">
-            <fieldset class="module aligned">
-                <div class="form-row field-html">
-                    <div>
-                        <div class="flex-container">
-                            <label class="required" for="id_html">Html:</label>
-                            <textarea name="html" cols="40" rows="10" class="vLargeTextField" required id="id_html"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row field-css">
-                    <div>
-                        <div class="flex-container">
-                            <label class="required" for="id_css">Css:</label>
-                            <textarea name="css" cols="40" rows="10" class="vLargeTextField" required id="id_css"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row field-js">
-                    <div>
-                        <div class="flex-container">
-                            <label class="required" for="id_js">Js:</label>
-                            <textarea name="js" cols="40" rows="10" class="vLargeTextField" required id="id_js"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <div style="flex: 1;">
-            <div class="form-row">
-                <label>Preview</label>
-                <iframe id="preview" style="width: 100%; height: 500px;"></iframe>
-            </div>
-        </div>
-    </div>
-
-</fieldset>
-
-
-
-
-
-
-
-
-
-<div class="submit-row">
-
-<input type="submit" value="Save" class="default" name="_save">
-
-<input type="submit" value="Save and add another" name="_addanother">
-<input type="submit" value="Save and continue editing" name="_continue">
-
-
-
-</div>
-
-
-
-    <script id="django-admin-form-add-constants"
-            src="/static/admin/js/change_form.js"
-            
-                data-model-name="sections"
-            
-            async>
-    </script>
-
-
-
-
-<script id="django-admin-prepopulated-fields-constants"
-        src="/static/admin/js/prepopulate_init.js"
-        data-prepopulated-fields="[]">
-</script>
-
-
-</div>
-</form></div>
-
-          
-          <br class="clear">
-        </div>
-        <!-- END Content -->
-        <div id="footer"></div>
-      </main>
-    </div>
-</div>
-<!-- END Container -->
-
-<!-- SVGs -->
-<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
-  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
-  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
-  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
-</svg>
-<!-- END SVGs -->
-</body>
-</html>
+{% endblock %}
