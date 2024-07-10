@@ -11,4 +11,4 @@ def simple_mail(request):
     except Exception as e:
 
         return HttpResponse(f"Hello, world. You're at the my_project index.{e}")
-    return HttpResponse(f"yes")
+    return HttpResponse("yes")
