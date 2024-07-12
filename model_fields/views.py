@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from model_fields.models import AllFieldsModel
 from django.core.exceptions import ValidationError
+from .forms import AllFieldsModelForm
 
 def toggle_bool_field_view(request, id):
     try:
@@ -27,8 +28,6 @@ def create_instance(request):
             email_field="example@example.com",
             url_field="https://example.com",
             uuid_field="550e8400-e29b-41d4-a716-446655440000",
-            # file_field="model_fields/templates/",
-            # image_field="model_fields/templates/",
             json_data={"key": "value"},
             file=request.FILES.get('file', None)
         )
@@ -41,4 +40,5 @@ def create_instance(request):
 
 def show_instances(request):
     instances = AllFieldsModel.objects.all()
-    return render(request, 'templates/instance_list.html', {'instances': instances})
+    return render(request, 'templates/index.html', {'instances': instances})
+

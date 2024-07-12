@@ -15,7 +15,7 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
         'datetime_field',
         'email_field',
         'url_field',
-        'uuid_field'
+        'uuid_field',
     )
     search_fields = ('char_field', 'text_field', 'email_field')
     list_filter = ('bool_field', 'date_field', 'datetime_field')
@@ -30,12 +30,13 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-
         obj.json_data = {
             'name': form.cleaned_data['name'],
             'email': form.cleaned_data['email'],
             'phone': form.cleaned_data['phone'],
-            'file': request.FILES['file'].name
         }
         
+        if 'file' in request.FILES:
+            obj.json_data['file'] = request.FILES['file'].name
+
         super().save_model(request, obj, form, change)
