@@ -4,5 +4,5 @@ from .views import create_instance
 
 urlpatterns = [
     path('toggle-bool/<int:id>/', toggle_bool_field_view, name='toggle_bool_field'),
-    # path('create-instance/', create_instance, name='create_instance'),
+    path('create-instance/', create_instance, name='create_instance'),
 ]

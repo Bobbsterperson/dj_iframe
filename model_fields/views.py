@@ -14,12 +14,6 @@ def toggle_bool_field_view(request, id):
 
 def create_instance(request):
     try:
-        json_data = {
-            "name": "John Doe",
-            "phone": "+1234567890",
-            "mail": "john.doe@example.com",
-            "file": "path/to/file.txt"
-        }
         instance = AllFieldsModel.objects.create(
             bool_field=True,
             char_field="Example",
@@ -35,8 +29,7 @@ def create_instance(request):
             uuid_field="550e8400-e29b-41d4-a716-446655440000",
             file_field="path/to/uploaded_file.txt",
             image_field="path/to/uploaded_image.jpg",
-            file_path_field="path/to/files/",
-            json_data=json_data
+            json_data={"key": "value"}
         )
         instance.save()
         return HttpResponse("Instance saved successfully!")
@@ -47,4 +40,4 @@ def create_instance(request):
 
 def show_instances(request):
     instances = AllFieldsModel.objects.all()
-    return render(request, 'myapp/instance_list.html', {'instances': instances})
+    return render(request, 'templates/instance_list.html', {'instances': instances})
