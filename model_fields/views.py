@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from model_fields.models import AllFieldsModel
-from django.core.exceptions import ValidationError
 
 def toggle_bool_field_view(request, id):
     try:
@@ -11,40 +10,3 @@ def toggle_bool_field_view(request, id):
         return HttpResponse("Boolean field toggled successfully.")
     except Exception as e:
         return render(request, 'exception.html', {'exception': str(e)})
-
-def create_instance(request):
-    try:
-        json_data = {
-            "name": "John Doe",
-            "phone": "+1234567890",
-            "mail": "john.doe@example.com",
-            "file": "path/to/file.txt"
-        }
-        instance = AllFieldsModel.objects.create(
-            bool_field=True,
-            char_field="Example",
-            text_field="Example text",
-            int_field=42,
-            float_field=3.14,
-            decimal_field=123.45,
-            date_field="2024-07-10",
-            datetime_field="2024-07-10T12:00:00Z",
-            time_field="12:00:00",
-            email_field="example@example.com",
-            url_field="https://example.com",
-            uuid_field="550e8400-e29b-41d4-a716-446655440000",
-            file_field="path/to/uploaded_file.txt",
-            image_field="path/to/uploaded_image.jpg",
-            file_path_field="path/to/files/",
-            json_data=json_data
-        )
-        instance.save()
-        return HttpResponse("Instance saved successfully!")
-    except ValidationError as e:
-        return HttpResponse(f"Validation error: {e}")
-    except Exception as e:
-        return HttpResponse(f"Error occurred: {e}")
-
-def show_instances(request):
-    instances = AllFieldsModel.objects.all()
-    return render(request, 'myapp/instance_list.html', {'instances': instances})

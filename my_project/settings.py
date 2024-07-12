@@ -147,5 +147,5 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = '25'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
-
+# STATIC_URL = '/static/'
 DEFAULT_FROM_EMAIL = 'bugstonn@gmail.com'

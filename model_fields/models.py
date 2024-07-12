@@ -1,27 +1,10 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
-from django.core import validators
-from django.core.exceptions import ValidationError
+
 
 class AllFieldsModel(models.Model):
     
     # BooleanField
     bool_field = models.BooleanField(default=False)
-
-    # jsonfield
-    # json_data = JSONField()
-    # name = models.CharField(max_length=100)
-    # phone = models.CharField(max_length=20)
-    # mail = models.EmailField()
-    # file = models.FileField(upload_to='files/')
-
-    # json_data = JSONField(
-    #     validators=[
-    #         validators.RegexValidator(
-    #             regex=r'^{"name": ".+", "phone": ".+", "mail": ".+", "file": ".+"}$',
-    #         ),
-    #     ]
-    # )
 
     # NullBooleanField
     null_bool_field = models.BooleanField(null=True, blank=True)
@@ -40,6 +23,7 @@ class AllFieldsModel(models.Model):
 
     # DecimalField
     decimal_field = models.DecimalField(max_digits=10, decimal_places=2)
+
 
     # DateField
     date_field = models.DateField()
