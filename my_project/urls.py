@@ -27,4 +27,3 @@ urlpatterns = [
     path('myapp/', include('myapp.urls')),
     path('model_fields/', include('model_fields.urls')),
 ]
-
