@@ -29,7 +29,8 @@ def create_instance(request):
             uuid_field="550e8400-e29b-41d4-a716-446655440000",
             # file_field="model_fields/templates/",
             # image_field="model_fields/templates/",
-            json_data={"key": "value"}
+            json_data={"key": "value"},
+            file=request.FILES.get('file', None)
         )
         instance.save()
         return HttpResponse("Instance saved successfully!")
