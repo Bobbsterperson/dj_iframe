@@ -27,8 +27,8 @@ def create_instance(request):
             email_field="example@example.com",
             url_field="https://example.com",
             uuid_field="550e8400-e29b-41d4-a716-446655440000",
-            file_field="model_fields/templates/",
-            image_field="model_fields/templates/",
+            # file_field="model_fields/templates/",
+            # image_field="model_fields/templates/",
             json_data={"key": "value"}
         )
         instance.save()

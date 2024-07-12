@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'model_fields',
+    'ckeditor',
 ]
 
 SITE_ID = 1

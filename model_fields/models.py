@@ -1,5 +1,5 @@
 from django.db import models
-from django.core import validators
+from ckeditor.fields import RichTextField
 
 class AllFieldsModel(models.Model):
     # BooleanField
@@ -15,7 +15,7 @@ class AllFieldsModel(models.Model):
     char_field = models.CharField(max_length=100)
 
     # TextField
-    text_field = models.TextField()
+    text_field = RichTextField(blank=True, null=True)
 
     # IntegerField
     int_field = models.IntegerField()
@@ -45,10 +45,10 @@ class AllFieldsModel(models.Model):
     uuid_field = models.UUIDField()
 
     # FileField
-    file_field = models.FileField(upload_to='uploads/')
+    # file_field = models.FileField(upload_to='templates/', null=True, blank=True)
 
-    # ImageField
-    image_field = models.ImageField(upload_to='images/')
+    # # ImageField
+    # image_field = models.ImageField(upload_to='templates/', null=True, blank=True)
 
 
     def __str__(self):
