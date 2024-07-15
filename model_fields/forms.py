@@ -10,3 +10,10 @@ class AllFieldsModelForm(forms.ModelForm):
     class Meta:
         model = AllFieldsModel
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(AllFieldsModelForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.json_data:
+            self.fields['name'].initial = self.instance.json_data.get('name', '')
+            self.fields['email'].initial = self.instance.json_data.get('email', '')
+            self.fields['phone'].initial = self.instance.json_data.get('phone', '')
