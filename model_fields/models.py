@@ -1,19 +1,21 @@
 from django.db import models
-
+from ckeditor.fields import RichTextField
 
 class AllFieldsModel(models.Model):
-    
     # BooleanField
     bool_field = models.BooleanField(default=False)
 
+    # JSONField
+    json_data = models.JSONField()
+
     # NullBooleanField
     null_bool_field = models.BooleanField(null=True, blank=True)
-    # CharField
 
+    # CharField
     char_field = models.CharField(max_length=100)
 
     # TextField
-    text_field = models.TextField()
+    text_field = RichTextField(blank=True, null=True)
 
     # IntegerField
     int_field = models.IntegerField()
@@ -23,7 +25,6 @@ class AllFieldsModel(models.Model):
 
     # DecimalField
     decimal_field = models.DecimalField(max_digits=10, decimal_places=2)
-
 
     # DateField
     date_field = models.DateField()
@@ -44,19 +45,11 @@ class AllFieldsModel(models.Model):
     uuid_field = models.UUIDField()
 
     # FileField
-    file_field = models.FileField(upload_to='uploads/')
+    # file_field = models.FileField(upload_to='templates/', null=True, blank=True)
 
-    # ImageField
-    image_field = models.ImageField(upload_to='images/')
+    # # ImageField
+    # image_field = models.ImageField(upload_to='templates/', null=True, blank=True)
 
-    # FilePathField
-    file_path_field = models.FilePathField(path='/var/www/html/')
-
-    # ForeignKey
-    # Example linking to another model within the same app
-    # Replace 'AnotherModel' with an actual model name in your project
-    # another_model = models.ForeignKey('AnotherModel', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.char_field  # Or whatever makes sense as a string representation
-
+        return self.char_field
