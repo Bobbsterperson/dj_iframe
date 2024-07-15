@@ -17,4 +17,16 @@ class AllFieldsModel(models.Model):
     email_field = models.EmailField(null=True, blank=True)
     url_field = models.URLField(null=True, blank=True)
     uuid_field = models.UUIDField(null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True, default='')
+    email = models.EmailField(blank=True, default='')
+    phone = models.CharField(max_length=15, blank=True, default='')
+    file = models.FileField(upload_to='files/', null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        self.json_data = {
+            'name': self.name,
+            'email': self.email,
+            'phone': self.phone,
+            'file': self.file.name if self.file else None,
+        }
+        super().save(*args, **kwargs)
