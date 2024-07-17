@@ -16,7 +16,6 @@ class AllFieldsModel(models.Model):
     date_field = models.DateField(null=True, blank=True)
     datetime_field = models.DateTimeField(null=True, blank=True)
     time_field = models.TimeField(null=True, blank=True)
-    email_field = models.EmailField(null=True, blank=True)
     url_field = models.URLField(null=True, blank=True)
     uuid_field = models.UUIDField(null=True, blank=True)
     name = models.CharField(max_length=100, blank=True, default='')

@@ -13,22 +13,22 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
         'decimal_field',
         'date_field',
         'datetime_field',
-        'email_field',
         'url_field',
         'uuid_field',
         'name',
         'email',
         'phone',
         'file',
+        
     )
-    search_fields = ('char_field', 'text_field', 'email_field', 'name', 'email', 'phone')
+    search_fields = ('char_field', 'text_field', 'name', 'email', 'phone')
     list_filter = ('bool_field', 'date_field', 'datetime_field')
 
     fieldsets = (
         (None, {
             'fields': (
                 'char_field', 'bool_field', 'int_field', 'float_field', 'decimal_field',
-                'date_field', 'datetime_field', 'email_field', 'url_field', 'uuid_field',
+                'date_field', 'datetime_field', 'url_field', 'uuid_field',
             )
         }),
         ('JSON Data', {
