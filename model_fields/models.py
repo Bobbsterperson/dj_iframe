@@ -1,8 +1,5 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from django.conf import settings
-import os
-import json
 
 class AllFieldsModel(models.Model):
     bool_field = models.BooleanField(default=False)
@@ -25,25 +22,8 @@ class AllFieldsModel(models.Model):
     datetime_field = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        original_json_data = self.json_data
-        if self.file:
-            file_path = os.path.join(settings.MEDIA_URL, self.file.name)
-            file_name = os.path.basename(self.file.name)
-            new_json_data = {
-                'name': {'first_name': self.name.split()[0], 'last_name': ' '.join(self.name.split()[1:])},
-                'email': self.email,
-                'phone': self.phone,
-                'file': {file_name: file_path},
-                'datetime_field': self.datetime_field.isoformat() if self.datetime_field else None,
-            }
-        else:
-            new_json_data = {
-                'name': {'first_name': self.name.split()[0], 'last_name': ' '.join(self.name.split()[1:])},
-                'email': self.email,
-                'phone': self.phone,
-                'file': original_json_data.get('file', {}) if original_json_data else {},
-                
-            }
-        if new_json_data != original_json_data:
-            self.json_data = new_json_data
+        self.json_data = {}
+        for key, value in self.__dict__.items():
+            if isinstance(value, (models.CharField, models.FileField)):
+                self.json_data[key] = value.initial
         super().save(*args, **kwargs)
