@@ -12,27 +12,21 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
         'float_field',
         'decimal_field',
         'date_field',
-        'datetime_field',
-        'email_field',
-        'url_field',
+        
         'uuid_field',
-        'name',
-        'email',
-        'phone',
-        'file',
     )
-    search_fields = ('char_field', 'text_field', 'email_field', 'name', 'email', 'phone')
-    list_filter = ('bool_field', 'date_field', 'datetime_field')
+    search_fields = ('char_field', 'text_field', 'name', 'email', 'phone')
+    list_filter = ('bool_field', 'date_field')
 
     fieldsets = (
         (None, {
             'fields': (
                 'char_field', 'bool_field', 'int_field', 'float_field', 'decimal_field',
-                'date_field', 'datetime_field', 'email_field', 'url_field', 'uuid_field',
+                'date_field', 'uuid_field',
             )
         }),
         ('JSON Data', {
-            'fields': ('name', 'email', 'phone', 'file')
+            'fields': ('name', 'email', 'phone', 'file', "twowordpoem", 'url_field', "datetime_field")
         }),
     )
 
@@ -40,6 +34,6 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
         obj.name = form.cleaned_data.get('name', '')
         obj.email = form.cleaned_data.get('email', '')
         obj.phone = form.cleaned_data.get('phone', '')
-        obj.file = request.FILES.get('file', None)
+        obj.file = request.FILES.get('file', obj.file)
         
         super().save_model(request, obj, form, change)

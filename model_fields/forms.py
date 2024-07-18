@@ -1,39 +1,21 @@
 from django import forms
 from .models import AllFieldsModel
+import json
 
 class AllFieldsModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = kwargs.get('instance')
+        if instance and isinstance(instance.json_data, dict):
+            json_data = instance.json_data
+            
+            for key, value in json_data.items():
+                if key == 'file':
+                    form_type = forms.FileField
+                else:
+                    form_type = forms.CharField
+                self.fields[key] = form_type(label=key.capitalize(), initial=value)
+
     class Meta:
         model = AllFieldsModel
         exclude = ('json_data',)
-
-    def clean_name(self):
-        name = self.cleaned_data.get('name', '')
-        if not name:
-            raise forms.ValidationError("Name cannot be empty.")
-        name_parts = name.split()
-        if len(name_parts) < 2:
-            raise forms.ValidationError("Please provide both first and last name.")
-        return name
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email', '')
-        if not email:
-            raise forms.ValidationError("Email cannot be empty.")
-        return email
-
-    def clean_phone(self):
-        phone = self.cleaned_data.get('phone', '')
-        if not phone:
-            raise forms.ValidationError("Phone cannot be empty.")
-        return phone
-
-    def clean_file(self):
-        file = self.cleaned_data.get('file', None)
-        return file
-
-    def __init__(self, *args, **kwargs):
-        super(AllFieldsModelForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['name'].initial = self.instance.name
-            self.fields['email'].initial = self.instance.email
-            self.fields['phone'].initial = self.instance.phone
