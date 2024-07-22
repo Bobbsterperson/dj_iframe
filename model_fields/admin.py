@@ -16,14 +16,14 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'char_field', 'bool_field', 'int_field', 'float_field', 
-                'decimal_field', 'date_field', 'uuid_field',
+                'char_field', 'int_field', 'float_field', 
+                'date_field', 'uuid_field',
             )
         }),
         ('JSON Data', {
             'fields': (
-                'name', 'email', 'phone', 'file', 'twowordpoem', 
-                'url_field', 'datetime_field'
+                'name', 'email', 'phone', 'file',
+                'url_field', 'decimal_field', 'datetime_field', 'bool_field',
             )
         }),
     )
