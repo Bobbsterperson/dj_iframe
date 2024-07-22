@@ -17,13 +17,13 @@ class AllFieldsModelAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'char_field', 'int_field', 'float_field', 
-                'date_field', 'uuid_field',
+                'date_field',
             )
         }),
         ('JSON Data', {
             'fields': (
                 'name', 'email', 'phone', 'file',
-                'url_field', 'decimal_field', 'datetime_field', 'bool_field',
+                'uuid_field',
             )
         }),
     )

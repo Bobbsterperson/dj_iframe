@@ -44,7 +44,7 @@ class AllFieldsModel(models.Model):
             elif isinstance(value, bool):
                 self.json_data[field] = value
             else:
-                self.json_data[field] = value
+                self.json_data[field] = str(value)
 
     def save(self, *args, **kwargs):
         from .admin import AllFieldsModelAdmin
