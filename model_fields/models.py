@@ -1,8 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from django.conf import settings
-import os
-import json
+from datetime import datetime, date, time
 
 class AllFieldsModel(models.Model):
     bool_field = models.BooleanField(default=False)
@@ -24,26 +22,13 @@ class AllFieldsModel(models.Model):
     twowordpoem = models.IntegerField(null=True, blank=True)
     datetime_field = models.DateTimeField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        original_json_data = self.json_data
-        if self.file:
-            file_path = os.path.join(settings.MEDIA_URL, self.file.name)
-            file_name = os.path.basename(self.file.name)
-            new_json_data = {
-                'name': {'first_name': self.name.split()[0], 'last_name': ' '.join(self.name.split()[1:])},
-                'email': self.email,
-                'phone': self.phone,
-                'file': {file_name: file_path},
-                'datetime_field': self.datetime_field.isoformat() if self.datetime_field else None,
-            }
-        else:
-            new_json_data = {
-                'name': {'first_name': self.name.split()[0], 'last_name': ' '.join(self.name.split()[1:])},
-                'email': self.email,
-                'phone': self.phone,
-                'file': original_json_data.get('file', {}) if original_json_data else {},
-                
-            }
-        if new_json_data != original_json_data:
-            self.json_data = new_json_data
-        super().save(*args, **kwargs)
+    def update_json_data(self, fields):
+        self.json_data = {}
+        for field in fields:
+            value = getattr(self, field)
+            if isinstance(value, models.fields.files.FieldFile):
+                self.json_data[field] = value.url if value else ''
+            elif isinstance(value, (datetime, date, time)):
+                self.json_data[field] = value.isoformat() if value else ''
+            else:
+                self.json_data[field] = value
