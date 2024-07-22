@@ -1,5 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from datetime import datetime, date, time
 
 class AllFieldsModel(models.Model):
     bool_field = models.BooleanField(default=False)
@@ -21,9 +22,13 @@ class AllFieldsModel(models.Model):
     twowordpoem = models.IntegerField(null=True, blank=True)
     datetime_field = models.DateTimeField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
+    def update_json_data(self, fields):
         self.json_data = {}
-        for key, value in self.__dict__.items():
-            if isinstance(value, (models.CharField, models.FileField)):
-                self.json_data[key] = value.initial
-        super().save(*args, **kwargs)
+        for field in fields:
+            value = getattr(self, field)
+            if isinstance(value, models.fields.files.FieldFile):
+                self.json_data[field] = value.url if value else ''
+            elif isinstance(value, (datetime, date, time)):
+                self.json_data[field] = value.isoformat() if value else ''
+            else:
+                self.json_data[field] = value
