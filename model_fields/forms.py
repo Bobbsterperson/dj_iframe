@@ -1,22 +1,31 @@
 from django import forms
-from .models import AllFieldsModel
+from .models import DynamicFieldsModel, JsonFieldDefinition
 
-class AllFieldsModelForm(forms.ModelForm):
+class DynamicFieldsModelForm(forms.ModelForm):
+    """
+    Form to dynamically create fields based on JSON field definitions.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        instance = kwargs.get('instance')
-        if instance and isinstance(instance.json_data, dict):
-            json_data = instance.json_data
-            for key, value in json_data.items():
-                if key in [f.name for f in AllFieldsModel._meta.get_fields()]:
-                    if value['type'] == 'str':
-                        form_type = forms.CharField
-                    elif value['type'] == 'int':
-                        form_type = forms.IntegerField
-                    else:
-                        form_type = forms.CharField
-                    self.fields[key] = form_type(label=key.capitalize(), initial=value['value'])
+        json_generator = JsonFieldDefinition.objects.first()
+        json_data = json_generator.json_dt if json_generator else {}
+        for key, value in json_data.items():
+            if key not in [f.name for f in DynamicFieldsModel._meta.get_fields()]:
+                form_type = {
+                    'str': forms.CharField,
+                    'int': forms.IntegerField,
+                    'float': forms.FloatField,
+                    'bool': forms.BooleanField,
+                    'date': forms.DateField,
+                    'datetime': forms.DateTimeField,
+                    'decimal': forms.DecimalField,
+                }.get(value['type'], forms.CharField)
+                self.fields[key] = form_type(
+                    label=key.capitalize(),
+                    initial=value['value'],
+                    required=False
+                )
 
     class Meta:
-        model = AllFieldsModel
+        model = DynamicFieldsModel
         exclude = ('json_data',)
