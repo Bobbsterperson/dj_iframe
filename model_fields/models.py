@@ -3,7 +3,6 @@ from ckeditor.fields import RichTextField
 from datetime import datetime, date, time
 from decimal import Decimal
 
-
 class AllFieldsModel(models.Model):
     bool_field = models.BooleanField(default=False)
     json_data = models.JSONField(default=dict)
@@ -22,6 +21,7 @@ class AllFieldsModel(models.Model):
     phone = models.CharField(max_length=15, blank=True, default='')
     file = models.FileField(upload_to='files/', null=True, blank=True)
     datetime_field = models.DateTimeField(null=True, blank=True)
+    bingo = models.CharField(max_length=100, blank=True, default='')
 
     def update_json_data(self, fields):
         self.json_data = {}
@@ -47,7 +47,13 @@ class AllFieldsModel(models.Model):
                 self.json_data[field] = str(value)
 
     def save(self, *args, **kwargs):
-        from .admin import AllFieldsModelAdmin
-        json_data_fields = [field for fieldset in AllFieldsModelAdmin.fieldsets if fieldset[0] == 'JSON Data' for field in fieldset[1]['fields']]
+        json_data_fields = [field for fieldset in self.get_admin_fieldsets() if fieldset[0] == 'JSON Data' for field in fieldset[1]['fields']]
         self.update_json_data(json_data_fields)
         super().save(*args, **kwargs)
+
+    def get_admin_fieldsets(self):
+        from .admin import AllFieldsModelAdmin
+        return AllFieldsModelAdmin(self._meta.model).get_fieldsets(None)
+    
+class JsonGenerator(models.Model):
+    json_dt = models.JSONField(default=dict)
