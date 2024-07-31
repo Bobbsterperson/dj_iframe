@@ -26,7 +26,10 @@ class DynamicFieldsModelForm(forms.ModelForm):
                     self.fields[name] = forms.IntegerField(
                         required=False,
                         widget=forms.NumberInput(attrs={'placeholder': field['value']}))
-                
+                elif field['type'] == "bool":
+                    self.fields[name] = forms.BooleanField(
+                        required=False,
+                        widget=forms.CheckboxInput(attrs={'placeholder': field['value']}))
 
 
     def clean(self) -> dict[str, Any]:

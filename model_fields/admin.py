@@ -4,7 +4,7 @@ from .forms import DynamicFieldsModelForm
 
 @admin.register(DynamicFieldsModel)
 class DynamicFieldsModelAdmin(admin.ModelAdmin):
-
+    list_display = ('id', 'dynamic_data')
     # exclude = ('dynamic_data',)
     def get_fieldsets(self, request, obj=None):
         fieldsets = super().get_fieldsets(request, obj)
