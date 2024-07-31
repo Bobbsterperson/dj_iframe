@@ -4,8 +4,8 @@ from .forms import DynamicFieldsModelForm
 
 @admin.register(DynamicFieldsModel)
 class DynamicFieldsModelAdmin(admin.ModelAdmin):
-    # form = DynamicFieldsModelForm
 
+    # exclude = ('dynamic_data',) 
     def get_fieldsets(self, request, obj=None):
         fieldsets = super().get_fieldsets(request, obj)
         if obj:
@@ -16,7 +16,7 @@ class DynamicFieldsModelAdmin(admin.ModelAdmin):
     
     def get_form(self, request, obj=None, change=False, **kwargs):
         return DynamicFieldsModelForm
-    
+
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
 
