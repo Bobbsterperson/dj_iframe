@@ -1,13 +1,15 @@
 from typing import Any
 from django import forms
-from .models import DynamicFieldsModel
+from .models import DynamicFieldsModel, JsonFieldDefinition
 
 class DynamicFieldsModelForm(forms.ModelForm):
-    dynamic_data = forms.JSONField()  # widget=forms.HiddenInput()
+    # dynamic_data = forms.JSONField()  # widget=forms.HiddenInput()
+    
     class Meta:
+        exclude = ('dynamic_data',)
         model = DynamicFieldsModel
         fields = '__all__'
-        exclude = []
+
 
     def __init__(self, *args, **kwargs):
         super(DynamicFieldsModelForm, self).__init__(*args, **kwargs)
@@ -16,13 +18,14 @@ class DynamicFieldsModelForm(forms.ModelForm):
         if instance and instance.foreign_key_id:
             json_fields = instance.foreign_key_id.json_field
             for name, field in json_fields.items():
-                if name not in self.fields:
-                    if field['type'] == "str":
-                        self.fields[name] = forms.CharField(
-                            widget=forms.TextInput(attrs={'placeholder': field['value']}))
-                    elif field['type'] == "int":
-                        self.fields[name] = forms.IntegerField(
-                            widget=forms.NumberInput(attrs={'placeholder': field['value']}))
+                if field['type'] == "str":
+                    self.fields[name] = forms.CharField(
+                        required=False,
+                        widget=forms.TextInput(attrs={'placeholder': field['value']}))
+                elif field['type'] == "int":
+                    self.fields[name] = forms.IntegerField(
+                        required=False,
+                        widget=forms.NumberInput(attrs={'placeholder': field['value']}))
                 
 
 
@@ -30,16 +33,16 @@ class DynamicFieldsModelForm(forms.ModelForm):
         cleaned_data = super().clean()
         return cleaned_data
     
-    def save(self, commit: bool = True) -> DynamicFieldsModel:
-        instance = super().save(commit=False)
+    def save(self, *args, **kwargs) -> DynamicFieldsModel:
         dynamic_values = {}
-        for name in self.fields:
-            if name != 'dynamic_data':
-                dynamic_values[name] = self.cleaned_data.get(name)
+        json_fields_id = self["foreign_key_id"].value()
+        json_fields = JsonFieldDefinition.objects.get(id=json_fields_id).json_field
+        
+        for name in json_fields.keys():
+            dynamic_values[name] = self.cleaned_data.get(name)
 
+        print(dynamic_values)
+        
+        instance = super(DynamicFieldsModelForm, self).save(*args, **kwargs)
         instance.dynamic_data = dynamic_values
-        
-        if commit:
-            instance.save()
-        
         return instance
