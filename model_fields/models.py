@@ -2,13 +2,17 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from datetime import datetime, date, time
 from decimal import Decimal
+import json
+
+
+
+class JsonFieldDefinition(models.Model):
+    json_field = models.JSONField()
 
 class DynamicFieldsModel(models.Model):
-    """
-    Model to store various fields, including dynamically generated fields from JSON data.
-    """
-
-    bool_field = models.BooleanField(default=False)
+    foreign_key_id = models.ForeignKey(JsonFieldDefinition, on_delete=models.CASCADE, related_name='dynamic_models')
+    # dynamic_fields = models.JSONField(default=dict)
+    # bool_field = models.BooleanField(default=False)
     # json_data = models.JSONField(default=dict)
     # null_bool_field = models.BooleanField(null=True, blank=True)
     # char_field = models.CharField(max_length=100, null=True, blank=True)
@@ -50,28 +54,24 @@ class DynamicFieldsModel(models.Model):
             else:
                 self.json_data[field] = str(value)
 
-    def save(self, *args, **kwargs):
-        """
-        Override save method to update json_data with dynamic fields.
-        """
-        json_data_fields = self.get_dynamic_fields()
-        self.update_json_data(json_data_fields)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     """
+    #     Override save method to update json_data with dynamic fields.
+    #     """
+    #     json_data_fields = self.get_dynamic_fields()
+    #     self.update_json_data(json_data_fields)
+    #     super().save(*args, **kwargs)
 
-    def get_dynamic_fields(self):
-        """
-        Retrieve dynamic fields based on the fieldsets defined in the admin.
-        """
-        from .admin import DynamicFieldsModelAdmin
-        fieldsets = DynamicFieldsModelAdmin(self._meta.model).get_fieldsets(None)
-        json_data_fields = []
-        for fieldset in fieldsets:
-            if fieldset[0] == 'JSON Data':
-                json_data_fields.extend(fieldset[1]['fields'])
-        return json_data_fields
-    
-class JsonFieldDefinition(models.Model):
-    """
-    Model to store JSON field definitions.
-    """
-    json_dt = models.JSONField(default=dict)
+    # def get_dynamic_fields(self):
+    #     """
+    #     Retrieve dynamic fields based on the fieldsets defined in the admin.
+    #     """
+    #     from .admin import DynamicFieldsModelAdmin
+    #     fieldsets = DynamicFieldsModelAdmin(self._meta.model).get_fieldsets(None)
+    #     json_data_fields = []
+    #     for fieldset in fieldsets:
+    #         if fieldset[0] == 'JSON Data':
+    #             json_data_fields.extend(fieldset[1]['fields'])
+    #     return json_data_fields
+
+
