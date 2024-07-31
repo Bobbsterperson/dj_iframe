@@ -1,8 +1,8 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+# from ckeditor.fields import RichTextField
 from datetime import datetime, date, time
 from decimal import Decimal
-import json
+
 
 
 
@@ -31,28 +31,28 @@ class DynamicFieldsModel(models.Model):
     # datetime_field = models.DateTimeField(null=True, blank=True)
     # bingo = models.CharField(max_length=100, blank=True, default='')
 
-    def update_json_data(self, fields):
-        """
-        Update the json_data field with values from the specified fields.
-        """
-        self.json_data = {}
-        for field in fields:
-            value = getattr(self, field)
-            if isinstance(value, models.fields.files.FieldFile):
-                if value:
-                    file_name = value.name.split('/')[-1]
-                    file_path = value.url
-                    self.json_data[field] = {'name': file_name, 'path': file_path}
-                else:
-                    self.json_data[field] = {'name': '', 'path': ''}
-            elif isinstance(value, (datetime, date, time)):
-                self.json_data[field] = value.isoformat() if value else None
-            elif isinstance(value, Decimal):
-                self.json_data[field] = str(value)
-            elif isinstance(value, bool):
-                self.json_data[field] = value
-            else:
-                self.json_data[field] = str(value)
+    # def update_json_data(self, fields):
+    #     """
+    #     Update the json_data field with values from the specified fields.
+    #     """
+    #     self.json_data = {}
+    #     for field in fields:
+    #         value = getattr(self, field)
+    #         if isinstance(value, models.fields.files.FieldFile):
+    #             if value:
+    #                 file_name = value.name.split('/')[-1]
+    #                 file_path = value.url
+    #                 self.json_data[field] = {'name': file_name, 'path': file_path}
+    #             else:
+    #                 self.json_data[field] = {'name': '', 'path': ''}
+    #         elif isinstance(value, (datetime, date, time)):
+    #             self.json_data[field] = value.isoformat() if value else None
+    #         elif isinstance(value, Decimal):
+    #             self.json_data[field] = str(value)
+    #         elif isinstance(value, bool):
+    #             self.json_data[field] = value
+    #         else:
+    #             self.json_data[field] = str(value)
 
     # def save(self, *args, **kwargs):
     #     """

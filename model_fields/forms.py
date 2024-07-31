@@ -6,6 +6,7 @@ class DynamicFieldsModelForm(forms.ModelForm):
     class Meta:
         model = DynamicFieldsModel
         fields = '__all__'
+        exclude = []
 
     def __init__(self, *args, **kwargs):
         super(DynamicFieldsModelForm, self).__init__(*args, **kwargs)
@@ -19,6 +20,8 @@ class DynamicFieldsModelForm(forms.ModelForm):
                 elif field['type'] == "int":
                     self.fields[name] = forms.IntegerField(
                         widget=forms.NumberInput(attrs={'placeholder': field['value']}))
+                
+
 
     def clean(self) -> dict[str, Any]:
         cleaned_data = super().clean()
