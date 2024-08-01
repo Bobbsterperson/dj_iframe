@@ -1,4 +1,3 @@
-from typing import Any
 from django import forms
 from .models import DynamicFieldsModel, JsonFieldDefinition
 
@@ -11,12 +10,16 @@ class DynamicFieldsModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DynamicFieldsModelForm, self).__init__(*args, **kwargs)
         instance = kwargs.get('instance')
-        if instance and instance.foreign_key_id:
-            json_fields = instance.foreign_key_id.json_field
+
+        if instance and instance.foreign_key_id_id:
+            json_fields_id = instance.foreign_key_id_id
+            json_fields = JsonFieldDefinition.objects.get(id=json_fields_id).json_field
             dynamic_data = instance.dynamic_data or {}
+
             for name, field in json_fields.items():
                 field_type = field.get('type')
                 initial_value = dynamic_data.get(name, '' if field_type == 'str' else None)
+
                 if field_type == "str":
                     self.fields[name] = forms.CharField(
                         required=False,
@@ -35,12 +38,23 @@ class DynamicFieldsModelForm(forms.ModelForm):
                         initial=dynamic_data.get(name, False),
                         widget=forms.CheckboxInput(attrs={'placeholder': field.get('value', '')})
                     )
+                elif field_type == "dropdown":
+                    choices = field.get('choices', [])
+                    if not choices:
+                        choices_queryset = DynamicFieldsModel.objects.filter(foreign_key_id_id=json_fields_id)
+                        choices = [(obj.id, obj.dynamic_data.get(name, '')) for obj in choices_queryset]
+                    self.fields[name] = forms.ChoiceField(
+                        required=False,
+                        initial=initial_value,
+                        choices=choices,
+                        widget=forms.Select(attrs={'placeholder': field.get('value', '')})
+                    )
 
-    def clean(self) -> dict[str, Any]:
+    def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
-    
-    def save(self, commit=True, *args, **kwargs) -> DynamicFieldsModel:
+
+    def save(self, commit=True, *args, **kwargs):
         instance = super(DynamicFieldsModelForm, self).save(commit=False, *args, **kwargs)
         dynamic_values = {}
         json_fields_id = self.instance.foreign_key_id_id

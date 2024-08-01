@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from model_fields.models import AllFieldsModel
-from django.core.exceptions import ValidationError
-from .forms import AllFieldsModelForm
+
+
 
 def toggle_bool_field_view(request, id):
     try:
