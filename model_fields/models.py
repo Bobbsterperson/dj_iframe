@@ -1,5 +1,5 @@
 from django.db import models
-
+from ckeditor.fields import RichTextField
 
 class JsonFieldDefinition(models.Model):
     json_field = models.JSONField()
